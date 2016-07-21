@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'ostruct'
+
+require_relative '../lib/JobList.rb'
+
+EXE_NAME = 'Job Listing Tracker'
+VERSION = '0.0.1'
+
+options = OpenStruct.new
+
+parser = OptionParser.new do |opts|
+    opts.program_name = "jlt"
+    opts.banner = "#{EXE_NAME} -- Help\nUsage: jlb [options] <actions>"
+    
+    opts.on('-h', '--help', 'Displays Help') do
+        puts opts
+        exit
+    end
+    
+    opts.on('-v', '--version', 'Displays program version') do
+        puts "#{EXE_NAME}: 0.0.1"
+        exit
+    end
+    
+    opts.on('-d', '--data', 'Name of the datafile, default = joblistdata.xml') do |filename|
+        options.datafile = filename
+    end
+        
+end
+
+parser.parse!
+
+action = parser.default_argv.shift
+params = parser.default_argv.join(" ")
+joblist = JobList.new(options.datafile)
+
+joblist.each {|job| job.call(action, params) }
