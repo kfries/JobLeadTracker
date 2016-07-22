@@ -8,17 +8,13 @@ class JobList
     def initialize (filename)
         @jobs = Array.new
         
-        @filename = filename.nil? ? "joblistdata.xml" : filename
-        data = Nokogiri::XML(File.read(@filename,))
-        
-        unless data.nil?
-            data.root.children.each do |child|
-                ap child.child
-            end
-                
-            # @jobs << data.search("job")["Company"]
-        end
-        
-        ap @jobs
+        @jobs << "Company-1"
+        @jobs << "Company-2"
+        @jobs << "Company-3"
+        @jobs << "Company-4"
+    end
+    
+    def list (unneeded)
+        @jobs.each {|job| ap job }
     end
 end
