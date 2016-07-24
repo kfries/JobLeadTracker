@@ -2,19 +2,18 @@ require 'nokogiri'
 require 'ap'
 
 class JobList
-    attr_reader :filename
     attr_reader :jobs
     
-    def initialize (filename)
+    def initialize
+        @filename = nil
         @jobs = Array.new
-        
-        @jobs << "Company-1"
-        @jobs << "Company-2"
-        @jobs << "Company-3"
-        @jobs << "Company-4"
     end
     
-    def list (unneeded)
-        @jobs.each {|job| ap job }
+    def read(filename)
+        data = Nokogiri::XML(File.open(filename, "r"))
+        data.xpath("//company").each do |company|
+            ap company.inspect
+            @jobs << company
+        end
     end
 end
